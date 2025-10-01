@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookieCookbook", "CookieCookbook\CookieCookbook.csproj", "{A956B520-EB5F-4859-AD6A-F919161EFD17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookieCookbook.Tests", "CookieCookbook.Tests\CookieCookbook.Tests.csproj", "{9C2FA552-7BBC-438A-9156-BEE7754C705C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{A956B520-EB5F-4859-AD6A-F919161EFD17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A956B520-EB5F-4859-AD6A-F919161EFD17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A956B520-EB5F-4859-AD6A-F919161EFD17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C2FA552-7BBC-438A-9156-BEE7754C705C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C2FA552-7BBC-438A-9156-BEE7754C705C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C2FA552-7BBC-438A-9156-BEE7754C705C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C2FA552-7BBC-438A-9156-BEE7754C705C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
