@@ -1,0 +1,106 @@
+classDiagram
+    direction TB
+
+    class Ingredient {
+        +int Id
+        +string Name
+        +string PreparationInstruction
+    }
+    
+    class Recipe {
+        +List~Ingredient~ Ingredients
+        +bool IsValid()
+    }
+    
+    Recipe "1" *-- "0..*" Ingredient : contains
+
+    class IRecipeRepository {
+        <<interface>>
+        +List~Recipe~ LoadRecipes(string path)
+        +void SaveRecipes(string path, List~Recipe~ recipes)
+    }
+    
+    class JsonRecipeRepository {
+        +List~Recipe~ LoadRecipes(string path)
+        +void SaveRecipes(string path, List~Recipe~ recipes)
+    }
+    
+    class TxtRecipeRepository {
+        +List~Recipe~ LoadRecipes(string path)
+        +void SaveRecipes(string path, List~Recipe~ recipes)
+    }
+
+    IRecipeRepository <|.. JsonRecipeRepository : implements
+    IRecipeRepository <|.. TxtRecipeRepository : implements
+
+    class IIngredientRepository {
+        <<interface>>
+        +List~Ingredient~ GetAllAvailable()
+        +Ingredient GetById(int id)
+    }
+    
+    class IngredientRepository {
+        -Dictionary~int, Ingredient~ ingredients
+        +List~Ingredient~ GetAllAvailable()
+        +Ingredient GetById(int id)
+    }
+
+    IIngredientRepository <|.. IngredientRepository : implements
+
+    class IUserInterface {
+        <<interface>>
+        +void DisplayExistingRecipes(List~Recipe~ recipes)
+        +void DisplayAvailableIngredients(List~Ingredient~ ingredients)
+        +string PromptForIngredientId()
+        +void DisplayRecipeSaved(Recipe recipe)
+        +void DisplayMessage(string message)
+        +void WaitForExit()
+    }
+    
+    class ConsoleUserInterface {
+        +void DisplayExistingRecipes(List~Recipe~ recipes)
+        +void DisplayAvailableIngredients(List~Ingredient~ ingredients)
+        +string PromptForIngredientId()
+        +void DisplayRecipeSaved(Recipe recipe)
+        +void DisplayMessage(string message)
+        +void WaitForExit()
+        -string ReadLine()
+        -void WriteLine(string message)
+    }
+
+    IUserInterface <|.. ConsoleUserInterface : implements
+
+    class RecipeService {
+        -IUserInterface ui
+        -IRecipeRepository dataStore
+        -IIngredientRepository ingredientRepo
+        -string filePath
+        +RecipeService(IUserInterface ui, IRecipeRepository dataStore, IIngredientRepository ingredientRepo, string filePath)
+        +void Run()
+        -void DisplayExistingRecipes()
+        -Recipe CreateNewRecipe()
+        -List~Ingredient~ SelectIngredients()
+        -void SaveRecipe(Recipe recipe)
+    }
+
+    RecipeService --> IUserInterface : uses
+    RecipeService --> IRecipeRepository : uses
+    RecipeService --> IIngredientRepository : uses
+    RecipeService --> Recipe : creates
+
+    class Program {
+        +static void Main(string[] args)
+        -static IRecipeRepository CreateDataStore(FileFormat format)
+    }
+    
+    class FileFormat {
+        <<enumeration>>
+        TXT
+        JSON
+    }
+
+    Program ..> RecipeService : composes/starts
+    Program ..> FileFormat : uses
+    Program ..> IRecipeRepository : creates
+    Program ..> IIngredientRepository : creates
+    Program ..> IUserInterface : creates
