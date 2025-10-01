@@ -10,7 +10,7 @@ namespace CookieCookbook
     public class Program
     {
         private const FileFormat SELECTED_FORMAT = FileFormat.txt; // FileFormat.txt or FileFormat.Json
-        private const string FILE_NAME = "recipes";
+        private const string FILE_NAME = "./Data/recipes";
 
         public static void Main(string[] args)
         {
