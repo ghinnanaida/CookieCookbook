@@ -12,13 +12,11 @@ namespace CookieCookbook.Tests.Controllers
         private CookieRecipeController? _controller;
         private Mock<IUserInterface> _mockUi;
         private Mock<IRecipeService> _mockService;
-        private string? _testFilePath;
         private List<Ingredient> _testDataIngredients;
 
         [SetUp]
         public void SetUp()
         {
-            _testFilePath = "D:/Bootcamp-formulatrix/CookieCookbook/CookieCookbook.Tests/Helpers/recipes.txt";
             _mockUi = new Mock<IUserInterface>();
             _mockService = new Mock<IRecipeService>();
 

@@ -10,21 +10,31 @@ namespace CookieCookbook
     public class Program
     {
         private const FileFormat SELECTED_FORMAT = FileFormat.txt; // FileFormat.txt or FileFormat.Json
-        private const string FILE_NAME = "./Data/recipes";
+        private const string FOLDER_NAME = "./Data/";
+        private const string FILE_NAME = "recipes";
 
         public static void Main(string[] args)
         {
             var ingredientRepo = new IngredientRepository();
-            var recipeRepo = CreateDataStore(SELECTED_FORMAT, ingredientRepo);
+            var recipeRepo = SelectRecipeRepository(SELECTED_FORMAT, ingredientRepo);
             var ui = new ConsoleUserInterface();
-            var filePath = FILE_NAME + "." +SELECTED_FORMAT;
+            var filePath = GetFilePath();
             var recipeService = new RecipeService(recipeRepo, ingredientRepo, filePath);
 
             var app = new CookieRecipeController(ui, recipeService);
             app.Run();
         }
 
-        private static IRecipeRepository CreateDataStore(FileFormat format, IIngredientRepository ingredientRepo)
+        private static string GetFilePath()
+        {
+            if (!Directory.Exists(FOLDER_NAME))
+            {
+                Directory.CreateDirectory(FOLDER_NAME);
+            }
+            return FOLDER_NAME + FILE_NAME + "." + SELECTED_FORMAT;
+        }
+
+        private static IRecipeRepository SelectRecipeRepository(FileFormat format, IIngredientRepository ingredientRepo)
         {
             return format switch
             {
