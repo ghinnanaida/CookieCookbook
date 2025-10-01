@@ -1,9 +1,9 @@
 ﻿using CookieCookbook.Enumerations;
 using CookieCookbook.Repositories.Interfaces;
 using CookieCookbook.Repositories;
-using CookieCookbook.Service;
-using CookieCookbook.View;
-using System.IO.Enumeration;
+using CookieCookbook.Controllers;
+using CookieCookbook.Services;
+using CookieCookbook.Views;
 
 namespace CookieCookbook
 {
@@ -15,11 +15,12 @@ namespace CookieCookbook
         public static void Main(string[] args)
         {
             var ingredientRepo = new IngredientRepository();
-            var dataStore = CreateDataStore(SELECTED_FORMAT, ingredientRepo);
+            var recipeRepo = CreateDataStore(SELECTED_FORMAT, ingredientRepo);
             var ui = new ConsoleUserInterface();
             var filePath = FILE_NAME + "." +SELECTED_FORMAT;
+            var recipeService = new RecipeService(recipeRepo, ingredientRepo, filePath);
 
-            var app = new RecipeService(ui, dataStore, ingredientRepo, filePath);
+            var app = new CookieRecipeController(ui, recipeService);
             app.Run();
         }
 

@@ -1,26 +1,18 @@
+using CookieCookbook.Services;
+using CookieCookbook.Views;
 using CookieCookbook.Models;
-using CookieCookbook.Repositories.Interfaces;
-using CookieCookbook.View;
 
-namespace CookieCookbook.Service
+namespace CookieCookbook.Controllers
 {
-    public class RecipeService
+    public class CookieRecipeController
     {
         private readonly IUserInterface _ui;
-        private readonly IRecipeRepository _dataStore;
-        private readonly IIngredientRepository _ingredientRepo;
-        private readonly string _filePath;
+        private readonly IRecipeService _recipeService;
 
-        public RecipeService(
-            IUserInterface ui,
-            IRecipeRepository dataStore,
-            IIngredientRepository ingredientRepo,
-            string filePath)
+        public CookieRecipeController(IUserInterface ui, IRecipeService recipeService)
         {
             _ui = ui;
-            _dataStore = dataStore;
-            _ingredientRepo = ingredientRepo;
-            _filePath = filePath;
+            _recipeService = recipeService;
         }
 
         public void Run()
@@ -29,13 +21,12 @@ namespace CookieCookbook.Service
 
             var newRecipe = CreateNewRecipe();
 
-            if (!newRecipe.IsValid())
+            if (!_recipeService.SaveRecipe(newRecipe))
             {
                 _ui.DisplayMessage("No ingredients have been selected. Recipe will not be saved.");
             }
             else
             {
-                SaveRecipe(newRecipe);
                 _ui.DisplayRecipeSaved(newRecipe);
             }
 
@@ -44,13 +35,13 @@ namespace CookieCookbook.Service
 
         private void DisplayExistingRecipes()
         {
-            var existingRecipes = _dataStore.LoadRecipes(_filePath);
+            var existingRecipes = _recipeService.GetExistingRecipes();
             _ui.DisplayExistingRecipes(existingRecipes);
         }
 
         private Recipe CreateNewRecipe()
         {
-            var availableIngredients = _ingredientRepo.GetAllAvailable();
+            var availableIngredients = _recipeService.GetAvailableIngredients();
             _ui.DisplayAvailableIngredients(availableIngredients);
 
             var selectedIngredients = SelectIngredients();
@@ -70,7 +61,7 @@ namespace CookieCookbook.Service
                     break;
                 }
 
-                var ingredient = _ingredientRepo.GetById(id);
+                var ingredient = _recipeService.GetIngredientById(id);
                 if (ingredient != null)
                 {
                     ingredients.Add(ingredient);
@@ -78,13 +69,6 @@ namespace CookieCookbook.Service
             }
 
             return ingredients;
-        }
-
-        private void SaveRecipe(Recipe recipe)
-        {
-            var existingRecipes = _dataStore.LoadRecipes(_filePath);
-            existingRecipes.Add(recipe);
-            _dataStore.SaveRecipes(_filePath, existingRecipes);
         }
     }
 }

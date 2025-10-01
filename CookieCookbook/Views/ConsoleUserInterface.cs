@@ -1,6 +1,6 @@
 using CookieCookbook.Models;
 
-namespace CookieCookbook.View
+namespace CookieCookbook.Views
 {
     public class ConsoleUserInterface : IUserInterface
     {
