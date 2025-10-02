@@ -17,7 +17,7 @@ namespace CookieCookbook.Tests.Repositories
         {
             _ingredientRepo = new Mock<IIngredientRepository>();
             _repository = new TxtRecipeRepository(_ingredientRepo.Object);
-            _testFilePath = "D:/Bootcamp-formulatrix/CookieCookbook/CookieCookbook.Tests/Helpers/recipes.txt";
+            _testFilePath = "./recipes.txt";
         }
 
         [TearDown]
@@ -44,8 +44,8 @@ namespace CookieCookbook.Tests.Repositories
             {
                 new Recipe(new List<Ingredient>
                 {
-                    new Ingredient(1, "Sugar", "Add to other ingredients."),
-                    new Ingredient(2, "Butter", "Melt on low heat.")
+                    new Sugar(1),
+                    new Butter(2)
                 })
             };
 
@@ -61,31 +61,31 @@ namespace CookieCookbook.Tests.Repositories
             {
                 new Recipe(new List<Ingredient>
                 {
-                    new Ingredient(1, "Sugar", "Add to other ingredients."),
-                    new Ingredient(2, "Butter", "Melt on low heat.")
+                    new Sugar(1),
+                    new Butter(2)
                 }),
                 new Recipe(new List<Ingredient>
                 {
-                    new Ingredient(6, "Cardamom", "Take half a teaspoon. Add to other ingredients.") ,
-                    new Ingredient(7, "Cinnamon", "Take half a teaspoon. Add to other ingredients.") ,
-                    new Ingredient(8, "Cocoa powder", "Add to other ingredients.")
+                    new Cardamom(6),
+                    new Cinnamon(7),
+                    new CocoaPowder(8)
                 })
             };
 
-            _ingredientRepo!.Setup(ir => ir.GetById(1)).Returns(new Ingredient(1, "Sugar", "Add to other ingredients."));
-            _ingredientRepo!.Setup(ir => ir.GetById(2)).Returns(new Ingredient(2, "Butter", "Melt on low heat."));
-            _ingredientRepo!.Setup(ir => ir.GetById(6)).Returns(new Ingredient(6, "Cardamom", "Take half a teaspoon. Add to other ingredients."));
-            _ingredientRepo!.Setup(ir => ir.GetById(7)).Returns(new Ingredient(7, "Cinnamon", "Take half a teaspoon. Add to other ingredients."));
-            _ingredientRepo!.Setup(ir => ir.GetById(8)).Returns(new Ingredient(8, "Cocoa powder", "Add to other ingredients."));
+            _ingredientRepo!.Setup(ir => ir.GetById(1)).Returns(new Sugar(1));
+            _ingredientRepo!.Setup(ir => ir.GetById(2)).Returns(new Butter(2));
+            _ingredientRepo!.Setup(ir => ir.GetById(6)).Returns(new Cardamom(6));
+            _ingredientRepo!.Setup(ir => ir.GetById(7)).Returns(new Cinnamon(7));
+            _ingredientRepo!.Setup(ir => ir.GetById(8)).Returns(new CocoaPowder(8));
 
             _repository.SaveRecipes(_testFilePath, originalRecipes);
             var loadedRecipes = _repository.LoadRecipes(_testFilePath);
 
             Assert.That(loadedRecipes, Has.Count.EqualTo(2));
-            Assert.That(loadedRecipes[0].Ingredients, Has.Count.EqualTo(2));
-            Assert.That(loadedRecipes[0].Ingredients[0].Id, Is.EqualTo(1));
-            Assert.That(loadedRecipes[1].Ingredients, Has.Count.EqualTo(3));
-            Assert.That(loadedRecipes[1].Ingredients[0].Id, Is.EqualTo(6));
+            Assert.That(loadedRecipes[0].GetRecipe().Count, Is.EqualTo(2));
+            Assert.That(loadedRecipes[0].GetRecipe()[0].Id, Is.EqualTo(1));
+            Assert.That(loadedRecipes[1].GetRecipe(), Has.Count.EqualTo(3));
+            Assert.That(loadedRecipes[1].GetRecipe()[0].Id, Is.EqualTo(6));
             _ingredientRepo.Verify(ir => ir.GetById(1), Times.Once);
             _ingredientRepo.Verify(ir => ir.GetById(2), Times.Once);
             _ingredientRepo.Verify(ir => ir.GetById(6), Times.Once);

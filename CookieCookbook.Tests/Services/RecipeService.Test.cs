@@ -23,9 +23,9 @@ namespace CookieCookbook.Tests.Services
 
             _testDataIngredients = new List<Ingredient>
             {
-                new Ingredient(1, "Wheat flour", "Sieve. Add to other ingredients."),
-                new Ingredient(2, "Coconut flour", "Sieve. Add to other ingredients."),
-                new Ingredient(3, "Butter", "Melt on low heat. Add to other ingredients.")
+                new WheatFlour(1),
+                new CoconutFlour(2),
+                new Butter(3)
             };
 
             _mockIngredient.Setup(r => r.GetAllAvailable()).Returns(_testDataIngredients);

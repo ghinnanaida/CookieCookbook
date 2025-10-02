@@ -10,14 +10,14 @@ namespace CookieCookbook.Tests.Models
         {
             var ingredients = new List<Ingredient>
             {
-                new Ingredient(1, "Sugar", "Add to other ingredients."),
-                new Ingredient(2, "Butter", "Melt on low heat.")
+                new Sugar(1),
+                new Butter(2)
             };
 
             var recipe = new Recipe(ingredients);
 
-            Assert.That(recipe.Ingredients, Has.Count.EqualTo(2));
-            Assert.That(recipe.Ingredients[0].Name, Is.EqualTo("Sugar"));
+            Assert.That(recipe.GetRecipe(), Has.Count.EqualTo(2));
+            Assert.That(recipe.GetRecipe()[0].Name, Is.EqualTo("Sugar"));
         }
 
         [Test]
@@ -25,8 +25,8 @@ namespace CookieCookbook.Tests.Models
         {
             var recipe = new Recipe(null);
 
-            Assert.That(recipe.Ingredients, Is.Not.Null);
-            Assert.That(recipe.Ingredients, Is.Empty);
+            Assert.That(recipe.GetRecipe(), Is.Not.Null);
+            Assert.That(recipe.GetRecipe(), Is.Empty);
         }
 
         [Test]
@@ -44,8 +44,8 @@ namespace CookieCookbook.Tests.Models
         {
             var ingredients = new List<Ingredient>
             {
-                new Ingredient(1, "Sugar", "1 cup"),
-                new Ingredient(2, "Flour", "2 cups")
+                new Sugar(1),
+                new WheatFlour(2)
             };
             var recipe = new Recipe(ingredients);
 

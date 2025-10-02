@@ -1,15 +1,14 @@
-using CookieCookbook.Controllers;
 using CookieCookbook.Services;
 using CookieCookbook.Views;
 using CookieCookbook.Models;
 using Moq;
 
-namespace CookieCookbook.Tests.Controllers
+namespace CookieCookbook.Tests
 {
     [TestFixture]
-    public class CookieRecipeControllerTests
+    public class CookieRecipeApplicationTests
     {
-        private CookieRecipeController? _controller;
+        private CookieRecipeApplication? _application;
         private Mock<IUserInterface> _mockUi;
         private Mock<IRecipeService> _mockService;
         private List<Ingredient> _testDataIngredients;
@@ -22,15 +21,15 @@ namespace CookieCookbook.Tests.Controllers
 
             _testDataIngredients = new List<Ingredient>
             {
-                new Ingredient(1, "Wheat flour", "Sieve. Add to other ingredients."),
-                new Ingredient(2, "Coconut flour", "Sieve. Add to other ingredients."),
-                new Ingredient(3, "Butter", "Melt on low heat. Add to other ingredients.")
+                new WheatFlour(1),
+                new CoconutFlour(2),
+                new Butter(3)
             };
 
             _mockService.Setup(s => s.GetAvailableIngredients()).Returns(_testDataIngredients);
             _mockService.Setup(s => s.GetExistingRecipes()).Returns(new List<Recipe>());
 
-            _controller = new CookieRecipeController(_mockUi.Object, _mockService.Object);
+            _application = new CookieRecipeApplication(_mockUi.Object, _mockService.Object);
         }
 
         [Test]
@@ -42,9 +41,9 @@ namespace CookieCookbook.Tests.Controllers
             _mockService.Setup(s => s.GetIngredientById(2)).Returns(_testDataIngredients[1]);
             _mockService.Setup(s => s.SaveRecipe(It.IsAny<Recipe>())).Returns(true);
 
-            _controller!.Run();
+            _application!.Run();
 
-            _mockService.Verify(s => s.SaveRecipe(It.Is<Recipe>(r => r.Ingredients.Count == 2)), Times.Once);
+            _mockService.Verify(s => s.SaveRecipe(It.Is<Recipe>(r => r.GetRecipe().Count == 2)), Times.Once);
             _mockUi.Verify(u => u.DisplayRecipeSaved(It.IsAny<Recipe>()), Times.Once);
             _mockService.Verify(s => s.GetIngredientById(1), Times.Once);
             _mockService.Verify(s => s.GetIngredientById(2), Times.Once);
@@ -56,9 +55,9 @@ namespace CookieCookbook.Tests.Controllers
             _mockUi.Setup(u => u.PromptForIngredientId()).Returns("done");
             _mockService.Setup(s => s.SaveRecipe(It.IsAny<Recipe>())).Returns(false);
 
-            _controller!.Run();
+            _application!.Run();
 
-            _mockService.Verify(s => s.SaveRecipe(It.Is<Recipe>(r => r.Ingredients.Count == 0)), Times.Once);
+            _mockService.Verify(s => s.SaveRecipe(It.Is<Recipe>(r => r.GetRecipe().Count == 0)), Times.Once);
             _mockUi.Verify(u => u.DisplayMessage("No ingredients have been selected. Recipe will not be saved."), Times.Once);
             _mockUi.Verify(u => u.DisplayRecipeSaved(It.IsAny<Recipe>()), Times.Never);
         }
@@ -73,9 +72,9 @@ namespace CookieCookbook.Tests.Controllers
             _mockService.Setup(s => s.GetIngredientById(1)).Returns(_testDataIngredients[0]);
             _mockService.Setup(s => s.SaveRecipe(It.IsAny<Recipe>())).Returns(true);
 
-            _controller!.Run();
+            _application!.Run();
 
-            _mockService.Verify(s => s.SaveRecipe(It.Is<Recipe>(r => r.Ingredients.Count == 1)), Times.Once);
+            _mockService.Verify(s => s.SaveRecipe(It.Is<Recipe>(r => r.GetRecipe().Count == 1)), Times.Once);
             _mockService.Verify(s => s.GetIngredientById(999), Times.Once);
             _mockService.Verify(s => s.GetIngredientById(1), Times.Once);
         }
@@ -91,7 +90,7 @@ namespace CookieCookbook.Tests.Controllers
             _mockUi.Setup(u => u.PromptForIngredientId()).Returns("done");
             _mockService.Setup(s => s.SaveRecipe(It.IsAny<Recipe>())).Returns(false);
 
-            _controller!.Run();
+            _application!.Run();
 
             _mockUi.Verify(u => u.DisplayExistingRecipes(It.Is<List<Recipe>>(r => r.Count == 1)), Times.Once);
             _mockService.Verify(s => s.GetExistingRecipes(), Times.Once);
@@ -103,7 +102,7 @@ namespace CookieCookbook.Tests.Controllers
             _mockUi.Setup(u => u.PromptForIngredientId()).Returns("done");
             _mockService.Setup(s => s.SaveRecipe(It.IsAny<Recipe>())).Returns(false);
 
-            _controller!.Run();
+            _application!.Run();
 
             _mockUi.Verify(u => u.DisplayAvailableIngredients(It.Is<List<Ingredient>>(i => i.Count == 3)), Times.Once);
             _mockService.Verify(s => s.GetAvailableIngredients(), Times.Once);
@@ -115,7 +114,7 @@ namespace CookieCookbook.Tests.Controllers
             _mockUi.Setup(u => u.PromptForIngredientId()).Returns("done");
             _mockService.Setup(s => s.SaveRecipe(It.IsAny<Recipe>())).Returns(false);
 
-            _controller!.Run();
+            _application!.Run();
 
             _mockUi.Verify(u => u.WaitForExit(), Times.Once);
         }
@@ -128,9 +127,9 @@ namespace CookieCookbook.Tests.Controllers
             _mockService.Setup(s => s.GetIngredientById(1)).Returns(_testDataIngredients[0]);
             _mockService.Setup(s => s.SaveRecipe(It.IsAny<Recipe>())).Returns(true);
 
-            _controller!.Run();
+            _application!.Run();
 
-            _mockService.Verify(s => s.SaveRecipe(It.Is<Recipe>(r => r.Ingredients.Count == 3)), Times.Once);
+            _mockService.Verify(s => s.SaveRecipe(It.Is<Recipe>(r => r.GetRecipe().Count == 3)), Times.Once);
             _mockService.Verify(s => s.GetIngredientById(1), Times.Exactly(3));
         }
     }
