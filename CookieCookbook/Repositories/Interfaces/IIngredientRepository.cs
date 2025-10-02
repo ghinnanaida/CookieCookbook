@@ -4,7 +4,7 @@ namespace CookieCookbook.Repositories.Interfaces
 {
     public interface IIngredientRepository
     {
-        List<Ingredient> GetAllAvailable();
+        IReadOnlyList<Ingredient> GetAllAvailable();
         Ingredient? GetById(int id);
     }
 }

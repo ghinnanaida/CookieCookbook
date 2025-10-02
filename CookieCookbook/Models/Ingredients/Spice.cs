@@ -8,9 +8,9 @@ namespace CookieCookbook.Models
             Name = name;
         }
 
-        public override string GetPreparationInstruction()
+        public override string GetPreparationAction()
         {
-            return "Take half a teaspoon. Add to other ingredients.";
+            return "Take half a teaspoon.";
         }
     }
 

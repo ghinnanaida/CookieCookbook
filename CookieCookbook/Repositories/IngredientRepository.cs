@@ -22,9 +22,9 @@ namespace CookieCookbook.Repositories
             };
         }
 
-        public List<Ingredient> GetAllAvailable()
+        public IReadOnlyList<Ingredient> GetAllAvailable()
         {
-            return _ingredients.OrderBy(i => i.Id).ToList();
+            return _ingredients.OrderBy(i => i.Id).ToList().AsReadOnly();
         }
 
         public Ingredient? GetById(int id)

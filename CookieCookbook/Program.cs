@@ -18,9 +18,10 @@ namespace CookieCookbook
             var recipeRepo = SelectRecipeRepository(SELECTED_FORMAT, ingredientRepo);
             var ui = new ConsoleUserInterface();
             var filePath = GetFilePath();
-            var recipeService = new RecipeService(recipeRepo, ingredientRepo, filePath);
+            var recipeService = new RecipeService(recipeRepo, filePath);
+            var ingredientService = new IngredientService(ingredientRepo);
 
-            var app = new CookieRecipeApplication(ui, recipeService);
+            var app = new CookieRecipeApplication(ui, recipeService, ingredientService);
             app.Run();
         }
 

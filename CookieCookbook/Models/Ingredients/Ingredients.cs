@@ -4,7 +4,19 @@ namespace CookieCookbook.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public abstract string GetPreparationInstruction();
+
+         public string GetPreparationInstruction()
+        {
+            
+            return $"{GetPreparationAction()} {GetMixingMethod()}";
+        }
+
+        public abstract string GetPreparationAction();
+
+        public virtual string GetMixingMethod()
+        {
+            return "Add to other ingredients.";
+        }
 
         public override string ToString()
         {
@@ -19,9 +31,9 @@ namespace CookieCookbook.Models
             Name = name;
          }
 
-        public override string GetPreparationInstruction()
+        public override string GetPreparationAction()
         {
-            return "Melt in a water bath. Add to other ingredients.";
+            return "Melt in a water bath.";
         }
     }
 }

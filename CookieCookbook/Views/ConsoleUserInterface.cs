@@ -22,7 +22,7 @@ namespace CookieCookbook.Views
             Console.WriteLine("");
         }
 
-        public void DisplayAvailableIngredients(List<Ingredient> ingredients)
+        public void DisplayAvailableIngredients(IReadOnlyList<Ingredient> ingredients)
         {
             Console.WriteLine("Create a new cookie recipe! Available ingredients are:");
             foreach (var ingredient in ingredients)

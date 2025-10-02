@@ -9,9 +9,9 @@ namespace CookieCookbook.Models
             Name = name;
         }
 
-        public override string GetPreparationInstruction()
+        public override string GetPreparationAction()
         {
-            return "Sieve. Add to other ingredients.";
+            return "Sieve.";
         }
     }
     

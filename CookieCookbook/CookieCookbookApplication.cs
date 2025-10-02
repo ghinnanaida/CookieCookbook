@@ -8,11 +8,13 @@ namespace CookieCookbook
     {
         private readonly IUserInterface _ui;
         private readonly IRecipeService _recipeService;
+        private readonly IIngredientService _ingredientService;
 
-        public CookieRecipeApplication(IUserInterface ui, IRecipeService recipeService)
+        public CookieRecipeApplication(IUserInterface ui, IRecipeService recipeService, IIngredientService ingredientService)
         {
             _ui = ui;
             _recipeService = recipeService;
+            _ingredientService = ingredientService;
         }
 
         public void Run()
@@ -41,7 +43,7 @@ namespace CookieCookbook
 
         private Recipe CreateNewRecipe()
         {
-            var availableIngredients = _recipeService.GetAvailableIngredients();
+            var availableIngredients = _ingredientService.GetAvailableIngredients();
             _ui.DisplayAvailableIngredients(availableIngredients);
 
             var selectedIngredients = SelectIngredients();
@@ -61,7 +63,7 @@ namespace CookieCookbook
                     break;
                 }
 
-                var ingredient = _recipeService.GetIngredientById(id);
+                var ingredient = _ingredientService.GetIngredientById(id);
                 if (ingredient != null)
                 {
                     ingredients.Add(ingredient);

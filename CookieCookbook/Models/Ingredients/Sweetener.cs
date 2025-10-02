@@ -7,10 +7,9 @@ namespace CookieCookbook.Models
             Id = id;
             Name = name;
         }
-
-        public override string GetPreparationInstruction()
+        public override string GetPreparationAction()
         {
-            return "Add to other ingredients.";
+            return "Measure the required amount.";
         }
     }
 
