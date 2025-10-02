@@ -27,7 +27,7 @@ namespace CookieCookbook.Repositories
         public void SaveRecipes(string path, List<Recipe> recipes)
         {
             var recipeStrings = recipes.Select(r => 
-                string.Join(",", r.Ingredients.Select(i => i.Id))
+                string.Join(",", r.GetRecipe().Select(i => i.Id))
             ).ToList();
 
             var json = JsonSerializer.Serialize(recipeStrings);

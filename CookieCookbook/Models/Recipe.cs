@@ -2,16 +2,21 @@ namespace CookieCookbook.Models
 {
      public class Recipe
     {
-        public List<Ingredient> Ingredients { get; }
+        private List<Ingredient> _ingredients { get; }
 
         public Recipe(List<Ingredient> ingredients)
         {
-            Ingredients = ingredients ?? new List<Ingredient>();
+            _ingredients = ingredients ?? new List<Ingredient>();
         }
 
+        public IReadOnlyList<Ingredient> GetRecipe()
+        {
+            return _ingredients.AsReadOnly();
+        }
+        
         public bool IsValid()
         {
-            return Ingredients.Count > 0;
+            return _ingredients.Count > 0;
         }
     }
 }

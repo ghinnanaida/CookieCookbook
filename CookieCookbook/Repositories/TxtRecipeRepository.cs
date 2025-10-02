@@ -24,7 +24,7 @@ namespace CookieCookbook.Repositories
         public void SaveRecipes(string path, List<Recipe> recipes)
         {
             var lines = recipes.Select(r => 
-                string.Join(",", r.Ingredients.Select(i => i.Id))
+                string.Join(",", r.GetRecipe().Select(i => i.Id))
             );
             File.WriteAllLines(path, lines);
         }

@@ -2,14 +2,14 @@ using CookieCookbook.Services;
 using CookieCookbook.Views;
 using CookieCookbook.Models;
 
-namespace CookieCookbook.Controllers
+namespace CookieCookbook
 {
-    public class CookieRecipeController
+    public class CookieRecipeApplication
     {
         private readonly IUserInterface _ui;
         private readonly IRecipeService _recipeService;
 
-        public CookieRecipeController(IUserInterface ui, IRecipeService recipeService)
+        public CookieRecipeApplication(IUserInterface ui, IRecipeService recipeService)
         {
             _ui = ui;
             _recipeService = recipeService;

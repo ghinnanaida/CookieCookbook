@@ -1,7 +1,6 @@
 ﻿using CookieCookbook.Enumerations;
 using CookieCookbook.Repositories.Interfaces;
 using CookieCookbook.Repositories;
-using CookieCookbook.Controllers;
 using CookieCookbook.Services;
 using CookieCookbook.Views;
 
@@ -9,7 +8,7 @@ namespace CookieCookbook
 {
     public class Program
     {
-        private const FileFormat SELECTED_FORMAT = FileFormat.txt; // FileFormat.txt or FileFormat.Json
+        private const FileFormat SELECTED_FORMAT = FileFormat.Json; // FileFormat.txt or FileFormat.Json
         private const string FOLDER_NAME = "./Data/";
         private const string FILE_NAME = "recipes";
 
@@ -21,7 +20,7 @@ namespace CookieCookbook
             var filePath = GetFilePath();
             var recipeService = new RecipeService(recipeRepo, ingredientRepo, filePath);
 
-            var app = new CookieRecipeController(ui, recipeService);
+            var app = new CookieRecipeApplication(ui, recipeService);
             app.Run();
         }
 

@@ -5,31 +5,31 @@ namespace CookieCookbook.Repositories
 {
     public class IngredientRepository : IIngredientRepository
     {
-        private readonly Dictionary<int, Ingredient> _ingredients;
+        private readonly List<Ingredient> _ingredients;
 
         public IngredientRepository()
         {
-            _ingredients = new Dictionary<int, Ingredient>
+            _ingredients = new List<Ingredient>
             {
-                { 1, new Ingredient(1, "Wheat flour", "Sieve. Add to other ingredients.") },
-                { 2, new Ingredient(2, "Coconut flour", "Sieve. Add to other ingredients.") },
-                { 3, new Ingredient(3, "Butter", "Melt on low heat. Add to other ingredients.") },
-                { 4, new Ingredient(4, "Chocolate", "Melt in a water bath. Add to other ingredients.") },
-                { 5, new Ingredient(5, "Sugar", "Add to other ingredients.") },
-                { 6, new Ingredient(6, "Cardamom", "Take half a teaspoon. Add to other ingredients.") },
-                { 7, new Ingredient(7, "Cinnamon", "Take half a teaspoon. Add to other ingredients.") },
-                { 8, new Ingredient(8, "Cocoa powder", "Add to other ingredients.") }
+                new WheatFlour(1),
+                new CoconutFlour(2),
+                new Butter(3),
+                new Chocolate(4),
+                new Sugar(5),
+                new Cinnamon(6),
+                new Cardamom(7),
+                new CocoaPowder(8)
             };
         }
 
         public List<Ingredient> GetAllAvailable()
         {
-            return _ingredients.Values.OrderBy(i => i.Id).ToList();
+            return _ingredients.OrderBy(i => i.Id).ToList();
         }
 
         public Ingredient? GetById(int id)
         {
-            return _ingredients.TryGetValue(id, out var ingredient) ? ingredient : null;
+            return _ingredients.FirstOrDefault(i => i.Id == id);
         }
     }
 

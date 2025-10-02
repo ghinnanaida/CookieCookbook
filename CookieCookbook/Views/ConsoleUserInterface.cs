@@ -45,7 +45,7 @@ namespace CookieCookbook.Views
 
         public void DisplayRecipe(Recipe recipe)
         {
-            foreach (var ingredient in recipe.Ingredients)
+            foreach (var ingredient in recipe.GetRecipe())
             {
                 Console.WriteLine(ingredient.ToString());
             }
