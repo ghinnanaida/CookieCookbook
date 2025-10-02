@@ -12,7 +12,7 @@ namespace CookieCookbook.Tests.Models
 
             Assert.That(ingredient.Id, Is.EqualTo(1));
             Assert.That(ingredient.Name, Is.EqualTo("Sugar"));
-            Assert.That(ingredient.GetPreparationInstruction(), Is.EqualTo("Add to other ingredients."));
+            Assert.That(ingredient.GetPreparationInstruction(), Is.EqualTo("Measure the required amount. Add to other ingredients."));
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace CookieCookbook.Tests.Models
 
             var result = ingredient.ToString();
 
-            Assert.That(result, Is.EqualTo("Sugar. Add to other ingredients."));
+            Assert.That(result, Is.EqualTo("Sugar. Measure the required amount. Add to other ingredients."));
         }
     }
 
@@ -181,7 +181,7 @@ namespace CookieCookbook.Tests.Models
 
             Assert.That(ingredient.Id, Is.EqualTo(1));
             Assert.That(ingredient.Name, Is.EqualTo("Cocoa powder"));
-            Assert.That(ingredient.GetPreparationInstruction(), Is.EqualTo("Add to other ingredients."));
+            Assert.That(ingredient.GetPreparationInstruction(), Is.EqualTo("Measure the required amount. Add to other ingredients."));
         }
 
         [Test]
@@ -191,7 +191,7 @@ namespace CookieCookbook.Tests.Models
 
             var result = ingredient.ToString();
 
-            Assert.That(result, Is.EqualTo("Cocoa powder. Add to other ingredients."));
+            Assert.That(result, Is.EqualTo("Cocoa powder. Measure the required amount. Add to other ingredients."));
         }
     }
 }

@@ -9,16 +9,14 @@ namespace CookieCookbook.Tests.Services
     public class RecipeServiceTests
     {
         private Mock<IRecipeRepository>? _mockRecipe;
-        private Mock<IIngredientRepository>? _mockIngredient;
         private RecipeService? _service;
         private string? _testFilePath;
-        private List<Ingredient> _testDataIngredients;
+        private IReadOnlyList<Ingredient> _testDataIngredients;
 
         [SetUp]
         public void SetUp()
         {
             _mockRecipe = new Mock<IRecipeRepository>();
-            _mockIngredient = new Mock<IIngredientRepository>();
             _testFilePath = "D:/Bootcamp-formulatrix/CookieCookbook/CookieCookbook.Tests/Helpers/recipes.txt";
 
             _testDataIngredients = new List<Ingredient>
@@ -28,17 +26,15 @@ namespace CookieCookbook.Tests.Services
                 new Butter(3)
             };
 
-            _mockIngredient.Setup(r => r.GetAllAvailable()).Returns(_testDataIngredients);
             _mockRecipe.Setup(r => r.LoadRecipes(It.IsAny<string>())).Returns(new List<Recipe>());
 
-            _service = new RecipeService( _mockRecipe.Object, _mockIngredient.Object, _testFilePath);
+            _service = new RecipeService( _mockRecipe.Object, _testFilePath);
         }
 
         [TearDown]
         public void TearDown()
         {
             _mockRecipe = null;
-            _mockIngredient = null;
             _testFilePath = null;
             _service = null;
         }
@@ -56,39 +52,6 @@ namespace CookieCookbook.Tests.Services
 
             Assert.That(result, Has.Count.EqualTo(1));
             _mockRecipe!.Verify(r => r.LoadRecipes(_testFilePath!), Times.Once);
-        }
-
-        [Test]
-        public void GetAvailableIngredients_ValidIngredients_ShouldReturnAllIngredients()
-        {
-            var result = _service!.GetAvailableIngredients();
-
-            Assert.That(result, Has.Count.EqualTo(3));
-            Assert.That(result[0].Name, Is.EqualTo("Wheat flour"));
-            _mockIngredient!.Verify(r => r.GetAllAvailable(), Times.Once);
-        }
-
-        [Test]
-        public void GetIngredientById_ValidId_ShouldReturnIngredient()
-        {
-            _mockIngredient!.Setup(r => r.GetById(1)).Returns(_testDataIngredients[0]);
-
-            var result = _service!.GetIngredientById(1);
-
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Name, Is.EqualTo("Wheat flour"));
-            _mockIngredient!.Verify(r => r.GetById(1), Times.Once);
-        }
-
-        [Test]
-        public void GetIngredientById_InvalidId_ShouldReturnNull()
-        {
-            _mockIngredient!.Setup(r => r.GetById(999)).Returns((Ingredient?)null);
-
-            var result = _service!.GetIngredientById(999);
-
-            Assert.That(result, Is.Null);
-            _mockIngredient!.Verify(r => r.GetById(999), Times.Once);
         }
 
         [Test]
