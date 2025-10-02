@@ -16,6 +16,6 @@ namespace CookieCookbook.Models
     
     public class Butter : Fat
     {
-        public Butter(int id) : base(id, "Butter") { }
+        public Butter() : base(3, "Butter") { }
     }
 }

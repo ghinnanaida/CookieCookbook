@@ -26,7 +26,7 @@ namespace CookieCookbook.Models
 
     public class Chocolate : Ingredient
     {
-        public Chocolate(int id, string name = "Chocolate") {
+        public Chocolate(int id = 4, string name = "Chocolate") {
             Id = id;
             Name = name;
          }

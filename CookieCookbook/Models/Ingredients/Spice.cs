@@ -16,10 +16,10 @@ namespace CookieCookbook.Models
 
     public class Cinnamon : Spice
     {
-        public Cinnamon(int id) : base(id, "Cinnamon") { }
+        public Cinnamon() : base(6, "Cinnamon") { }
     }
     public class Cardamom : Spice
     {
-        public Cardamom(int id) : base(id, "Cardamom") { }
+        public Cardamom() : base(7, "Cardamom") { }
     }
 }

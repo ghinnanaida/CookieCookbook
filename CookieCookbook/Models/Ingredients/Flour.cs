@@ -17,11 +17,11 @@ namespace CookieCookbook.Models
     
     public class WheatFlour : Flour
     {
-        public WheatFlour(int id) : base(id, "Wheat flour") { }
+        public WheatFlour() : base(1, "Wheat flour") { }
     }
 
     public class CoconutFlour : Flour
     {
-        public CoconutFlour(int id) : base(id, "Coconut flour") { }
+        public CoconutFlour() : base(2, "Coconut flour") { }
     }
 }

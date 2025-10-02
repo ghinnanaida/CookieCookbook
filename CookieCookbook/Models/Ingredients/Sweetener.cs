@@ -15,11 +15,11 @@ namespace CookieCookbook.Models
 
     public class Sugar : Sweetener
     {
-        public Sugar(int id) : base(id, "Sugar") { }
+        public Sugar() : base(5, "Sugar") { }
     }
     
     public class CocoaPowder : Sweetener
     {
-        public CocoaPowder(int id) : base(id, "Cocoa powder") { }
+        public CocoaPowder() : base(8, "Cocoa powder") { }
     }
 }

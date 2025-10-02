@@ -44,8 +44,8 @@ namespace CookieCookbook.Tests.Repositories
             {
                 new Recipe(new List<Ingredient>
                 {
-                    new Sugar(1),
-                    new Butter(2)
+                    new Sugar(),
+                    new Butter()
                 })
             };
 
@@ -61,33 +61,33 @@ namespace CookieCookbook.Tests.Repositories
             {
                 new Recipe(new List<Ingredient>
                 {
-                    new Sugar(1),
-                    new Butter(2)
+                    new Sugar(),
+                    new Butter()
                 }),
                 new Recipe(new List<Ingredient>
                 {
-                    new Cardamom(6),
-                    new Cinnamon(7),
-                    new CocoaPowder(8)
+                    new Cardamom(),
+                    new Cinnamon(),
+                    new CocoaPowder()
                 })
             };
 
-            _ingredientRepo!.Setup(ir => ir.GetById(1)).Returns(new Sugar(1));
-            _ingredientRepo!.Setup(ir => ir.GetById(2)).Returns(new Butter(2));
-            _ingredientRepo!.Setup(ir => ir.GetById(6)).Returns(new Cardamom(6));
-            _ingredientRepo!.Setup(ir => ir.GetById(7)).Returns(new Cinnamon(7));
-            _ingredientRepo!.Setup(ir => ir.GetById(8)).Returns(new CocoaPowder(8));
+            _ingredientRepo!.Setup(ir => ir.GetById(5)).Returns(new Sugar());
+            _ingredientRepo!.Setup(ir => ir.GetById(3)).Returns(new Butter());
+            _ingredientRepo!.Setup(ir => ir.GetById(6)).Returns(new Cardamom());
+            _ingredientRepo!.Setup(ir => ir.GetById(7)).Returns(new Cinnamon());
+            _ingredientRepo!.Setup(ir => ir.GetById(8)).Returns(new CocoaPowder());
 
             _repository.SaveRecipes(_testFilePath, originalRecipes);
             var loadedRecipes = _repository.LoadRecipes(_testFilePath);
 
             Assert.That(loadedRecipes, Has.Count.EqualTo(2));
             Assert.That(loadedRecipes[0].GetRecipe().Count, Is.EqualTo(2));
-            Assert.That(loadedRecipes[0].GetRecipe()[0].Id, Is.EqualTo(1));
+            Assert.That(loadedRecipes[0].GetRecipe()[0].Id, Is.EqualTo(5));
             Assert.That(loadedRecipes[1].GetRecipe(), Has.Count.EqualTo(3));
             Assert.That(loadedRecipes[1].GetRecipe()[0].Id, Is.EqualTo(6));
-            _ingredientRepo.Verify(ir => ir.GetById(1), Times.Once);
-            _ingredientRepo.Verify(ir => ir.GetById(2), Times.Once);
+            _ingredientRepo.Verify(ir => ir.GetById(5), Times.Once);
+            _ingredientRepo.Verify(ir => ir.GetById(3), Times.Once);
             _ingredientRepo.Verify(ir => ir.GetById(6), Times.Once);
             _ingredientRepo.Verify(ir => ir.GetById(7), Times.Once);
             _ingredientRepo.Verify(ir => ir.GetById(8), Times.Once);

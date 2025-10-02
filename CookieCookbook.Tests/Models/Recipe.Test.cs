@@ -10,8 +10,8 @@ namespace CookieCookbook.Tests.Models
         {
             var ingredients = new List<Ingredient>
             {
-                new Sugar(1),
-                new Butter(2)
+                new Sugar(),
+                new Butter()
             };
 
             var recipe = new Recipe(ingredients);
@@ -44,8 +44,8 @@ namespace CookieCookbook.Tests.Models
         {
             var ingredients = new List<Ingredient>
             {
-                new Sugar(1),
-                new WheatFlour(2)
+                new Sugar(),
+                new WheatFlour()
             };
             var recipe = new Recipe(ingredients);
 
