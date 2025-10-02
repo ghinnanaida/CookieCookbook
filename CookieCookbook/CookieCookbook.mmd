@@ -64,33 +64,40 @@ classDiagram
         +void DisplayRecipeSaved(Recipe recipe)
         +void DisplayMessage(string message)
         +void WaitForExit()
-        -string ReadLine()
-        -void WriteLine(string message)
     }
 
     IUserInterface <|.. ConsoleUserInterface : implements
 
-    class RecipeService {
-        -IUserInterface ui
-        -IRecipeRepository dataStore
-        -IIngredientRepository ingredientRepo
-        -string filePath
-        +RecipeService(IUserInterface ui, IRecipeRepository dataStore, IIngredientRepository ingredientRepo, string filePath)
-        +void Run()
-        -void DisplayExistingRecipes()
-        -Recipe CreateNewRecipe()
-        -List~Ingredient~ SelectIngredients()
-        -void SaveRecipe(Recipe recipe)
+    class IRecipeService {
+        <<interface>>
+        +List~Recipe~ GetExistingRecipes()
+        +List~Ingredient~ GetAvailableIngredients()
+        +Ingredient? GetIngredientById(int id)
+        +bool SaveRecipe(Recipe recipe)
     }
 
-    RecipeService --> IUserInterface : uses
+    class RecipeService {
+        -IRecipeRepository recipeRepo
+        -IIngredientRepository ingredientRepo
+        -string filePath
+        +RecipeService( IRecipeRepository recipeRepo, IIngredientRepository ingredientRepo, string filePath)
+        +List~Recipe~ GetExistingRecipes()
+        +List~Ingredient~ GetAvailableIngredients()
+        +Ingredient? GetIngredientById(int id)
+        +bool SaveRecipe(Recipe recipe)
+    }
+
+    IRecipeService <|.. RecipeService : implements
+
     RecipeService --> IRecipeRepository : uses
     RecipeService --> IIngredientRepository : uses
     RecipeService --> Recipe : creates
-
-    class Program {
-        +static void Main(string[] args)
-        -static IRecipeRepository CreateDataStore(FileFormat format)
+    
+    class CookieRecipeController {
+        -IRecipeService recipeService
+        -IUserInterface userInterface
+        +CookieRecipeController(IRecipeService recipeService, IUserInterface userInterface)
+        +void Run()
     }
     
     class FileFormat {
@@ -99,8 +106,7 @@ classDiagram
         JSON
     }
 
-    Program ..> RecipeService : composes/starts
-    Program ..> FileFormat : uses
-    Program ..> IRecipeRepository : creates
-    Program ..> IIngredientRepository : creates
-    Program ..> IUserInterface : creates
+    CookieRecipeController ..> RecipeService : composes
+    CookieRecipeController ..> FileFormat : uses
+    CookieRecipeController ..> IRecipeService : uses
+    CookieRecipeController ..> IUserInterface : uses
